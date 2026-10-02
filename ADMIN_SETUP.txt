@@ -1,0 +1,29 @@
+NEXORA TECHNOLOGIES - ADMIN LOGIN SETUP
+
+1. Open Supabase > SQL Editor.
+2. Run supabase_schema.sql completely. It creates:
+   - contact_messages
+   - admins
+   - required Row Level Security policies
+
+3. Open Supabase > Authentication > Users.
+4. Create your admin user if you have not already.
+5. Copy that user's User UID (UUID).
+
+6. Run this SQL, replacing the placeholder with the REAL UUID:
+
+insert into public.admins (user_id)
+values ('PASTE-YOUR-REAL-USER-UID-HERE');
+
+IMPORTANT: Do NOT use values such as '123'. A UUID looks like:
+8f4c2a91-7b32-4e6d-9a12-123456789abc
+
+7. Open admin.html in your local server.
+8. Login with the same Supabase Auth email/password.
+9. The dashboard loads only if the logged-in user's UUID exists in public.admins.
+10. Contact form submissions are displayed from public.contact_messages.
+
+Flow:
+Admin Login -> Supabase Auth -> public.admins authorization -> Admin Dashboard -> Contact Messages
+
+The browser config uses the public Supabase publishable key only. Never put a service_role/secret key in config.js.
